@@ -16,10 +16,8 @@ module PageRegisterController
 T                        1   2   3   1   2   3   1   2   3   1   2   3  
 CLK                 ____/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/¯\_/
 ADDRESS             ----X-(ADDRESS)-X-(ADDRESS)-X-(ADDRESS)-X-(ADDRESS)-X
-
 A0                  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\___________/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 A0 LATCHED          ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\___________/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-
 RD                  ¯¯¯¯¯¯\_______/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\_______/¯¯
 WR                  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\___/¯¯¯¯¯¯¯\___/¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 CS                  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\___________________________________/
@@ -32,9 +30,9 @@ reg             page_reg_increase = 1'b0;
 reg             page_reg_control_tick = 1'b0;
 
 //mode latch
-always @(negedge MCLK)
+always @(negedge CLK)
 begin
-    if(nCS = 1'b0)
+    if(nCS == 1'b0)
     begin
         page_reg_mode <= MODE;
     end
@@ -45,7 +43,7 @@ begin
 end
 
 //increase signal synchronizer 
-always @(posedge MCLK)
+always @(posedge CLK)
 begin
     page_reg_increase <= nRD & nWR;
 end

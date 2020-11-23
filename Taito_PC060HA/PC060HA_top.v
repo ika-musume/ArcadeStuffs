@@ -32,25 +32,33 @@ module PC060HA_top
     GLOBAL REGISTERS / NETS
 */
 //RW signals
-wire            slave_data_reg_read = nSCS | nSRD | ~A0;    //active low
-wire            slave_data_reg_write = nSCS | nSWR | ~A0;   //active low
-wire            master_data_reg_read = nMCS | nMRD | ~A0;   //active low
-wire            master_data_reg_write = nMCS | nMWR | ~A0;  //active low
+wire            slave_data_reg_read = nSCS | nSRD | ~SA0;    //active low
+wire            slave_data_reg_write = nSCS | nSWR | ~SA0;   //active low
+wire            master_data_reg_read = nMCS | nMRD | ~MA0;   //active low
+wire            master_data_reg_write = nMCS | nMWR | ~MA0;  //active low
 
 //data and page regs
-reg     [3:0]   master_to_slave[1:0];
 wire    [2:0]   master_page_reg;
-reg     [3:0]   slave_to_master[1:0];
+reg     [3:0]   master_to_slave_0;
+reg     [3:0]   master_to_slave_1;
+reg     [3:0]   master_to_slave_2;
+reg     [3:0]   master_to_slave_3;
+
 wire    [2:0]   slave_page_reg;
+reg     [3:0]   slave_to_master_0;
+reg     [3:0]   slave_to_master_1;
+reg     [3:0]   slave_to_master_2;
+reg     [3:0]   slave_to_master_3;
+
 
 
 
 /*
     INOUT DRIVER
 */
-reg             SD_OUTLATCH = 4'd0;
+reg     [3:0]   SD_OUTLATCH = 4'd0;
 assign          SD = ((slave_data_reg_read) == 1'b1) ? SD_OUTLATCH : 4'bZZZZ;
-reg             MD_OUTLATCH = 4'd0;
+reg     [3:0]   MD_OUTLATCH = 4'd0;
 assign          MD = ((master_data_reg_read) == 1'b1) ? MD_OUTLATCH : 4'bZZZZ;
 
 
@@ -83,16 +91,16 @@ wire            set_slave_side_half_full_flag = slave_data_reg_write | ~(slave_p
 wire            set_slave_side_full_flag = slave_data_reg_write | ~(slave_page_reg == 3'd3);                               //active low, slave does
 
 //slave side: reset flag after reading master data reg
-wire            reset_master_side_half_full_flag = nROUT & (slave_data_reg_read | ~(slave_page_reg == 3'd1))            //active low, slave does
-wire            reset_master_side_full_flag = nROUT & (slave_data_reg_read | ~(slave_page_reg == 3'd3))                 //active low, slave does
+wire            reset_master_side_half_full_flag = nROUT & (slave_data_reg_read | ~(slave_page_reg == 3'd1));           //active low, slave does
+wire            reset_master_side_full_flag = nROUT & (slave_data_reg_read | ~(slave_page_reg == 3'd3));                 //active low, slave does
 
 //master side: set flag after writing master data reg
 wire            set_master_side_half_full_flag = master_data_reg_write | ~(master_page_reg == 3'd1);                       //active low, master does
 wire            set_master_side_full_flag = master_data_reg_write | ~(master_page_reg == 3'd3);                            //active low, master does
 
 //master side: reset flag after reading master data reg
-wire            reset_slave_side_half_full_flag = nROUT & (master_data_reg_read | ~(master_page_reg == 3'd1))           //active low, master does
-wire            reset_slave_side_full_flag = nROUT & (master_data_reg_read | ~(master_page_reg == 3'd3))                //active low, master does
+wire            reset_slave_side_half_full_flag = nROUT & (master_data_reg_read | ~(master_page_reg == 3'd1));           //active low, master does
+wire            reset_slave_side_full_flag = nROUT & (master_data_reg_read | ~(master_page_reg == 3'd3));                //active low, master does
 
 
 
@@ -105,10 +113,10 @@ wire            master_half_full_flag;
 wire            master_full_flag;
 assign          nmi_request = master_half_full_flag | master_full_flag; //master half = 0, master full = 0
 
-FlagToggler     SlaveHalfFull   (.nRESET(nROUT), .nFLAGRESET(reset_slave_side_half_full_flag),  .nFLAGSET(set_slave_side_half_full_flag),   .FLAGOUT(slave_half_full_flag));
-FlagToggler     SlaveFull       (.nRESET(nROUT), .nFLAGRESET(reset_slave_side_full_flag),       .nFLAGSET(set_slave_side_full_flag),        .FLAGOUT(slave_full_flag));
-FlagToggler     MasterHalfFull  (.nRESET(nROUT), .nFLAGRESET(reset_master_side_half_full_flag), .nFLAGSET(set_master_side_half_full_flag),  .FLAGOUT(master_half_full_flag));
-FlagToggler     MasterFull      (.nRESET(nROUT), .nFLAGRESET(reset_master_side_full_flag),      .nFLAGSET(set_master_side_full_flag),       .FLAGOUT(master_full_flag));
+FlagToggler     SlaveHalfFull   (.nRESET(nROUT), .RESETTICK(reset_slave_side_half_full_flag),  .SETTICK(set_slave_side_half_full_flag),   .FLAGOUT(slave_half_full_flag));
+FlagToggler     SlaveFull       (.nRESET(nROUT), .RESETTICK(reset_slave_side_full_flag),       .SETTICK(set_slave_side_full_flag),        .FLAGOUT(slave_full_flag));
+FlagToggler     MasterHalfFull  (.nRESET(nROUT), .RESETTICK(reset_master_side_half_full_flag), .SETTICK(set_master_side_half_full_flag),  .FLAGOUT(master_half_full_flag));
+FlagToggler     MasterFull      (.nRESET(nROUT), .RESETTICK(reset_master_side_full_flag),      .SETTICK(set_master_side_full_flag),       .FLAGOUT(master_full_flag));
 
 
 
@@ -128,60 +136,32 @@ PageRegisterController  Master  (.nRESET(nIC),      .CLK(MCLK), .nRD(nMRD), .nWR
 always @(*)
 begin
     case (slave_page_reg)
-        3'd0:
-        begin
-            SD_OUTLATCH <= master_to_slave[2'd0];
-        end
-        3'd1:
-        begin
-            SD_OUTLATCH <= master_to_slave[2'd1];
-        end
-        3'd2:
-        begin
-            SD_OUTLATCH <= master_to_slave[2'd2];
-        end
-        3'd3:
-        begin
-            SD_OUTLATCH <= master_to_slave[2'd3];
-        end
-        3'd4:
-        begin
-            SD_OUTLATCH <= {slave_full_flag, slave_half_full_flag, master_full_flag, master_half_full_flag};
-        end
-        3'd5:
-        begin
-            SD_OUTLATCH <= {2'b00, IN1, IN0};
-        end
-        default: OUTLATCH <= 4'b0000;
+        3'd0: SD_OUTLATCH <= master_to_slave_0;
+        3'd1: SD_OUTLATCH <= master_to_slave_1;
+        3'd2: SD_OUTLATCH <= master_to_slave_2;
+        3'd3: SD_OUTLATCH <= master_to_slave_3;
+        3'd4: SD_OUTLATCH <= {slave_full_flag, slave_half_full_flag, master_full_flag, master_half_full_flag};
+        3'd5: SD_OUTLATCH <= {2'b00, IN1, IN0};
+        default: SD_OUTLATCH <= 4'b0000;
     endcase
 end
 
 //write
 always @(negedge slave_data_reg_write)
 begin
-    case (slave_page_reg)
-        3'd0:
-        begin
-            slave_to_master[slave_page_reg[1:0]] <= SD;
-        end
-        3'd1:
-        begin
-            slave_to_master[slave_page_reg[1:0]] <= SD;
-        end
-        3'd2:
-        begin
-            slave_to_master[slave_page_reg[1:0]] <= SD;
-        end
-        3'd3:
-        begin
-            slave_to_master[slave_page_reg[1:0]] <= SD;
-        end
-        default: //d4 is power amp on 
-    endcase
+    if(slave_page_reg[2] == 1'b0)
+	 begin
+        case (slave_page_reg[1:0])
+            2'd0: slave_to_master_0 <= SD;
+            2'd1: slave_to_master_1 <= SD;
+            2'd2: slave_to_master_2 <= SD;
+            2'd3: slave_to_master_3 <= SD;
+        endcase
+    end
 end
 
 //power amp GPO
-wire            powe_amp_on = slave_data_reg_write | ~(slave_page_reg == 3'd4);
+wire            power_amp_on = slave_data_reg_write | ~(slave_page_reg == 3'd4);
 
 always @(negedge nROUT or posedge power_amp_on)
 begin
@@ -199,7 +179,7 @@ end
 wire            nmi_disable = nROUT & (slave_data_reg_write | ~(slave_page_reg == 3'd5));   //active low
 wire            nmi_enable = slave_data_reg_write | ~(slave_page_reg == 3'd6);              //active low
 wire            nmi_request;                                                                //active high
-reg             nmi_toggle 1'b0;                                                            //active high
+reg             nmi_toggle = 1'b0;                                                            //active high
 assign          nNMI = ~nmi_request & nmi_toggle;
 
 always @(negedge nmi_disable or posedge nmi_enable)
@@ -222,26 +202,11 @@ end
 always @(*)
 begin
     case (master_page_reg)
-        3'd0:
-        begin
-            MD_OUTLATCH <= slave_to_master[2'd0];
-        end
-        3'd1:
-        begin
-            MD_OUTLATCH <= slave_to_master[2'd1];
-        end
-        3'd2:
-        begin
-            MD_OUTLATCH <= slave_to_master[2'd2];
-        end
-        3'd3:
-        begin
-            MD_OUTLATCH <= slave_to_master[2'd3];
-        end
-        3'd4:
-        begin
-            MD_OUTLATCH <= {slave_full_flag, slave_half_full_flag, master_full_flag, master_half_full_flag};
-        end
+        3'd0: MD_OUTLATCH <= slave_to_master_0;
+        3'd1: MD_OUTLATCH <= slave_to_master_1;
+        3'd2: MD_OUTLATCH <= slave_to_master_2;
+        3'd3: MD_OUTLATCH <= slave_to_master_3;
+        3'd4: MD_OUTLATCH <= {slave_full_flag, slave_half_full_flag, master_full_flag, master_half_full_flag};
         default: MD_OUTLATCH <= 4'b0000;
     endcase
 end
@@ -249,25 +214,14 @@ end
 //write
 always @(negedge master_data_reg_write)
 begin
-    case (master_page_reg)
-        3'd0:
-        begin
-            master_to_slave[master_page_reg[1:0]] <= MD;
-        end
-        3'd1:
-        begin
-            master_to_slave[master_page_reg[1:0]] <= MD;
-        end
-        3'd2:
-        begin
-            master_to_slave[master_page_reg[1:0]] <= MD;
-        end
-        3'd3:
-        begin
-            master_to_slave[master_page_reg[1:0]] <= MD;
-        end
-        default: //d4 is internal reset 
-    endcase
+    if(master_page_reg[2] == 1'b0)
+	 begin
+        case(master_page_reg[1:0])
+            2'd0: master_to_slave_0 <= MD;
+            2'd1: master_to_slave_1 <= MD;
+            2'd2: master_to_slave_2 <= MD;
+            2'd3: master_to_slave_3 <= MD;
+        endcase
+    end
 end
-
 endmodule
