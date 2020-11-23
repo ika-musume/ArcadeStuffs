@@ -5,3 +5,6 @@
 * Manufacturer: ?
 
 Decapped by me(photo attached) There are two epoxy filled bare dies on its subtrate. I inferred chips' models and circuits from Taito's previous game, Buggy Challenge. 
+
+
+<p align=center><img alt="PC010SA_scan" src="./PC010SA_scan.png"></p>
