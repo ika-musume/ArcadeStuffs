@@ -180,7 +180,7 @@ wire            nmi_disable = nROUT & (slave_data_reg_write | ~(slave_page_reg =
 wire            nmi_enable = slave_data_reg_write | ~(slave_page_reg == 3'd6);              //active low
 wire            nmi_request;                                                                //active high
 reg             nmi_toggle = 1'b0;                                                            //active high
-assign          nNMI = ~nmi_request & nmi_toggle;
+assign          nNMI = ~(nmi_request & nmi_toggle);
 
 always @(negedge nmi_disable or posedge nmi_enable)
 begin
