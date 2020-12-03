@@ -4,11 +4,13 @@
 * Used on: Konami Bubble System and its revised upper board w/ROMs
 * Manufacturer: Konami
 
+This is a replica of GX456 expansion RAM board which can be used for running Gradius.
 
-<p align=center><img alt="GX456" src="./GX456.png"></p>
 
+## Replacement
+<p align=center><img alt="GX456" src="./GX456.png" height="auto" width="640"></p>
 
-# Parts list
+### Parts list
 IC1: 6264 64kbit SRAM</p>
 IC2: 74LS32 Quad 2-input OR gate</p>
 IC3: 6264 64kbit SRAM</p>
