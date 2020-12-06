@@ -44,6 +44,3 @@ Decapped by me(photo attached) There are two epoxy filled bare dies on its subtr
 <p align=center><img alt="PC010SA_replacement" src="./PC010SA_replacement.png" height="auto" width="640"></p>
 
 ### Parts list
-
-
-## Replacement
