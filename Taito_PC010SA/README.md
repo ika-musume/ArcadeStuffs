@@ -8,9 +8,15 @@ Decapped by me(photo attached) There are two epoxy filled bare dies on its subtr
 
 
 ## Original IC
-<p align=center><img alt="PC010SA_scan" src="./PC010SA_scan.png" height="auto" width="640"></p>
+<p align=center><img alt="PC010SA_front" src="./PC010SA_front.jpg" height="auto" width="640"></p>
+
+
+<p align=center><img alt="PC010SA_back" src="./PC010SA_back.jpg" height="auto" width="640"></p>
 
 ## What's inside
+<p align=center><img alt="PC010SA_decapped" src="./PC010SA_decapped.jpg" height="auto" width="640"></p>
+
+
 <p align=center><img alt="PC010SA_diagram" src="./PC010SA_diagram.png" height="auto" width="640"></p>
 
 ### Components
