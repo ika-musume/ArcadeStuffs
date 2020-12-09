@@ -13,7 +13,7 @@
 <p align=center><img alt="PC040DA_back" src="./PC040DA_back.jpg" height="auto" width="640"></p>
 
 ## What's inside
-<p align=center><img alt="PC040DA_xray" src="./PC040DA_xray.png" height="auto" width="640"></p>
+<p align=center><img alt="PC040DA_xray" src="./PC040DA_xray.jpg" height="auto" width="640"></p>
 
 <p align=center><img alt="PC040DA_diagram" src="./PC040DA_diagram.png" height="auto" width="640"></p>
 
