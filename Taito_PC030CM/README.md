@@ -18,5 +18,3 @@ Decapped by me(photo attached) There are two epoxy filled bare dies on its subtr
 
 ## Replacement
 <p align=center><img alt="PC030CM_replacement" src="./PC030CM_replacement.png" height="auto" width="640"></p>
-
-### Parts list

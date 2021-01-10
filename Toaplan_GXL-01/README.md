@@ -40,5 +40,3 @@
 
 ## Replacement
 <p align=center><img alt="GXL-01_replacement" src="./GXL-01_replacement.jpg" height="auto" width="640"></p>
-
-### Parts list

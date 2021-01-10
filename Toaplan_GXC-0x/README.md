@@ -14,5 +14,3 @@ This module can replace a faulty original chip. Activiting microprocessor mode o
 
 ## Replacement
 <p align=center><img alt="GXC-04_replacement" src="./GXC-04_replacement.jpg" height="auto" width="640"></p>
-
-### Parts list

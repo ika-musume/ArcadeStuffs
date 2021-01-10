@@ -12,6 +12,10 @@
 
 <p align=center><img alt="PC040DA_back" src="./PC040DA_back.jpg" height="auto" width="640"></p>
 
+### Pinout
+
+
+
 ## What's inside
 <p align=center><img alt="PC040DA_xray" src="./PC040DA_xray.jpg" height="auto" width="640"></p>
 
@@ -21,4 +25,3 @@
 ## Replacement
 <p align=center><img alt="PC040DA_replacement" src="./PC040DA_replacement.jpg" height="auto" width="640"></p>
 
-### Parts list

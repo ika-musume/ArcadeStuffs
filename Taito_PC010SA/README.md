@@ -13,6 +13,37 @@ Decapped by me(photo attached) There are two epoxy filled bare dies on its subtr
 
 <p align=center><img alt="PC010SA_back" src="./PC010SA_back.jpg" height="auto" width="640"></p>
 
+### Pinout
+1: Balance
+
+2: Volume
+
+3: LM_bias
+
+4: Treble
+
+5: Bass
+
+6: +12V
+
+7: Out B
+
+8: TA_bias
+
+9: Out A
+
+10: Vref
+
+11: GND
+
+12: In A
+
+13: In B
+
+14: GND
+
+
+
 ## What's inside
 <p align=center><img alt="PC010SA_decapped" src="./PC010SA_decapped.jpg" height="auto" width="640"></p>
 
@@ -30,23 +61,7 @@ Decapped by me(photo attached) There are two epoxy filled bare dies on its subtr
 8. TA7630 silicon die
 9. LM3900 silicon die (not verified, inferred from previous games)
 
-### Pinout
-1. Balance
-2. Volume
-3. LM_bias
-4. Treble
-5. Bass
-6. +12V
-7. Out B
-8. TA_bias
-9. Out A
-10. Vref
-11. GND
-12. In A
-13. In B
-14. GND
 
 ## Replacement
 <p align=center><img alt="PC010SA_replacement" src="./PC010SA_replacement.png" height="auto" width="640"></p>
 
-### Parts list
