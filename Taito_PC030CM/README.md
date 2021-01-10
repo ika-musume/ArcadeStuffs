@@ -4,8 +4,6 @@
 * Used on: 
 * Manufacturer: ?
 
-Decapped by me(photo attached) There are two epoxy filled bare dies on its subtrate. I inferred chips' models and circuits from Taito's previous game, Buggy Challenge. 
-
 
 ## Original IC
 <p align=center><img alt="PC030CM_front" src="./PC030CM_front.jpg" height="auto" width="640"></p>
