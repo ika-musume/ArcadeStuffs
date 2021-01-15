@@ -3,12 +3,12 @@ module FlagToggler
     input   wire            nRESET,     //active low
     input   wire            RESETTICK,  //at posedge
     input   wire            SETTICK,    //at posedge
-    output  reg             FLAGOUT     //active high
-    //output  wire             FLAGOUT
+    //output  reg             FLAGOUT     //active high
+    output  wire             FLAGOUT
 );
 
 
-/* ORIGINAL GATE IMPLEMENTATION */
+/* ORIGINAL GATE IMPLEMENTATION 
 reg     flagreset_DFF_Q;
 wire    flagset_DFF_R = ~(flagreset_DFF_Q | ~nRESET);
 
@@ -37,11 +37,11 @@ begin
         FLAGOUT <= 1'b1;   
     end
 end
+*/
 
 
 
-
-/* NOPE
+/* NOPE */
 reg     setReg = 1'b0;
 reg     resetReg = 1'b0;
 assign  FLAGOUT = setReg ^ resetReg;
@@ -86,6 +86,6 @@ begin
         end
     end
 end
-*/
+
 
 endmodule

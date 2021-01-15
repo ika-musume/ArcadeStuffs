@@ -39,16 +39,16 @@ wire            master_data_reg_write = nMCS | nMWR | ~MA0;  //active low
 
 //data and page regs
 wire    [2:0]   master_page_reg;
-reg     [3:0]   master_to_slave_0;
-reg     [3:0]   master_to_slave_1;
-reg     [3:0]   master_to_slave_2;
-reg     [3:0]   master_to_slave_3;
+reg     [3:0]   master_to_slave_0 = 4'b0000;
+reg     [3:0]   master_to_slave_1 = 4'b0000;
+reg     [3:0]   master_to_slave_2 = 4'b0000;
+reg     [3:0]   master_to_slave_3 = 4'b0000;
 
 wire    [2:0]   slave_page_reg;
-reg     [3:0]   slave_to_master_0;
-reg     [3:0]   slave_to_master_1;
-reg     [3:0]   slave_to_master_2;
-reg     [3:0]   slave_to_master_3;
+reg     [3:0]   slave_to_master_0 = 4'b0000;
+reg     [3:0]   slave_to_master_1 = 4'b0000;
+reg     [3:0]   slave_to_master_2 = 4'b0000;
+reg     [3:0]   slave_to_master_3 = 4'b0000;
 
 
 
@@ -57,9 +57,9 @@ reg     [3:0]   slave_to_master_3;
     INOUT DRIVER
 */
 reg     [3:0]   SD_OUTLATCH = 4'd0;
-assign          SD = ((slave_data_reg_read) == 1'b1) ? SD_OUTLATCH : 4'bZZZZ;
+assign          SD = ((slave_data_reg_read) == 1'b1) ? 4'bZZZZ : SD_OUTLATCH;
 reg     [3:0]   MD_OUTLATCH = 4'd0;
-assign          MD = ((master_data_reg_read) == 1'b1) ? MD_OUTLATCH : 4'bZZZZ;
+assign          MD = ((master_data_reg_read) == 1'b1) ? 4'bZZZZ : MD_OUTLATCH;
 
 
 
@@ -111,7 +111,6 @@ wire            slave_half_full_flag;
 wire            slave_full_flag;
 wire            master_half_full_flag;
 wire            master_full_flag;
-assign          nmi_request = master_half_full_flag | master_full_flag; //master half = 0, master full = 0
 
 FlagToggler     SlaveHalfFull   (.nRESET(nROUT), .RESETTICK(reset_slave_side_half_full_flag),  .SETTICK(set_slave_side_half_full_flag),   .FLAGOUT(slave_half_full_flag));
 FlagToggler     SlaveFull       (.nRESET(nROUT), .RESETTICK(reset_slave_side_full_flag),       .SETTICK(set_slave_side_full_flag),        .FLAGOUT(slave_full_flag));
@@ -179,6 +178,7 @@ end
 wire            nmi_disable = nROUT & (slave_data_reg_write | ~(slave_page_reg == 3'd5));   //active low
 wire            nmi_enable = slave_data_reg_write | ~(slave_page_reg == 3'd6);              //active low
 wire            nmi_request;                                                                //active high
+assign          nmi_request = master_half_full_flag | master_full_flag; //master half = 0, master full = 0
 reg             nmi_toggle = 1'b0;                                                            //active high
 assign          nNMI = ~(nmi_request & nmi_toggle);
 

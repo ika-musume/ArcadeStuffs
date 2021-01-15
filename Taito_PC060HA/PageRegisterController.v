@@ -25,9 +25,9 @@ RD+WR SYNCED        ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 */
 
 reg             page_reg_mode = 1'b1;
-wire            page_reg_load = nWR;
-reg             page_reg_increase = 1'b0;
-reg             page_reg_control_tick = 1'b0;
+wire            page_reg_load = (nCS | MODE) | nWR;
+reg             page_reg_increase;
+reg             page_reg_control_tick = 1'b1;
 
 //mode latch
 always @(negedge CLK)
@@ -45,7 +45,7 @@ end
 //increase signal synchronizer 
 always @(posedge CLK)
 begin
-    page_reg_increase <= nRD & nWR;
+    page_reg_increase <= (nCS | ~MODE) | (nRD & nWR); //active low
 end
 
 //page register control signal multiplexer
