@@ -263,5 +263,114 @@ begin
     #1 nSRD = 1'b0;
     #4 nSRD = 1'b1;
     #1 nSCS = 1'b0;
+
+    //cycle 22 = 1420ns: 슬레이브 페이지 레지스터 쓰기 0번
+    #0 SA0 = 1'b0;
+    #0 nSCS = 1'b0;
+    #0 slaveDataReg = 4'b0000;
+    #1 slave_data_reg_write = 1'b0;
+    #2 nSWR = 1'b0;
+    #2 nSWR = 1'b1;
+    #1 nSCS = 1'b0;
+    #0 slave_data_reg_write = 1'b1;
+
+    //cycle 23 = 1480ns: 슬레이브 레지스터 쓰기 0번
+    #0 SA0 = 1'b1;
+    #0 nSCS = 1'b0;
+    #0 slaveDataReg = 4'b1000;
+    #1 slave_data_reg_write = 1'b0;
+    #2 nSWR = 1'b0;
+    #2 nSWR = 1'b1;
+    #1 nSCS = 1'b0;
+    #0 slave_data_reg_write = 1'b1;
+
+    //cycle 24 = 1540ns: 슬레이브 레지스터 쓰기 1번
+    #0 SA0 = 1'b1;
+    #0 nSCS = 1'b0;
+    #0 slaveDataReg = 4'b1001;
+    #1 slave_data_reg_write = 1'b0;
+    #2 nSWR = 1'b0;
+    #2 nSWR = 1'b1;
+    #1 nSCS = 1'b0;
+    #0 slave_data_reg_write = 1'b1;
+
+    //cycle 25 = 1600ns: 슬레이브 레지스터 쓰기 2번
+    #0 SA0 = 1'b1;
+    #0 nSCS = 1'b0;
+    #0 slaveDataReg = 4'b1010;
+    #1 slave_data_reg_write = 1'b0;
+    #2 nSWR = 1'b0;
+    #2 nSWR = 1'b1;
+    #1 nSCS = 1'b0;
+    #0 slave_data_reg_write = 1'b1;
+
+    //cycle 26 = 1660ns: 슬레이브 레지스터 쓰기 3번
+    #0 SA0 = 1'b1;
+    #0 nSCS = 1'b0;
+    #0 slaveDataReg = 4'b1011;
+    #1 slave_data_reg_write = 1'b0;
+    #2 nSWR = 1'b0;
+    #2 nSWR = 1'b1;
+    #1 nSCS = 1'b0;
+    #0 slave_data_reg_write = 1'b1;
+
+    //cycle 27 = 1720ns: 슬레이브 레지스터 읽기 4번
+    #0 SA0 = 1'b1;
+    #0 nSCS = 1'b0;
+    #1 nSRD = 1'b0;
+    #4 nSRD = 1'b1;
+    #1 nSCS = 1'b0;
+    
+    //cycle 28 = 1780ns: 마스터 레지스터 읽기 4번
+    #0 MA0 = 1'b1;
+    #0 nMCS = 1'b0;
+    #1 nMRD = 1'b0;
+    #4 nMRD = 1'b1;
+    #1 nMCS = 1'b0;
+
+    //cycle 29 = 1840ns: 마스터 페이지 레지스터 쓰기 (0으로 돌림)
+    #0 MA0 = 1'b0;
+    #0 nMCS = 1'b0;
+    #0 masterDataReg = 4'b0000;
+    #1 master_data_reg_write = 1'b0;
+    #2 nMWR = 1'b0;
+    #2 nMWR = 1'b1;
+    #1 nMCS = 1'b0;
+    #0 master_data_reg_write = 1'b1;
+
+    //cycle 30 = 1900ns: 마스터 레지스터 읽기 0번
+    #0 MA0 = 1'b1;
+    #0 nMCS = 1'b0;
+    #1 nMRD = 1'b0;
+    #4 nMRD = 1'b1;
+    #1 nMCS = 1'b0;
+
+    //cycle 31 = 1960ns: 마스터 레지스터 읽기 1번
+    #0 MA0 = 1'b1;
+    #0 nMCS = 1'b0;
+    #1 nMRD = 1'b0;
+    #4 nMRD = 1'b1;
+    #1 nMCS = 1'b0;
+
+    //cycle 32 = 2120ns: 마스터 레지스터 읽기 2번
+    #0 MA0 = 1'b1;
+    #0 nMCS = 1'b0;
+    #1 nMRD = 1'b0;
+    #4 nMRD = 1'b1;
+    #1 nMCS = 1'b0;
+
+    //cycle 33 = 2180ns: 마스터 레지스터 읽기 3번
+    #0 MA0 = 1'b1;
+    #0 nMCS = 1'b0;
+    #1 nMRD = 1'b0;
+    #4 nMRD = 1'b1;
+    #1 nMCS = 1'b0;
+
+    //cycle 34 = 2240ns: 마스터 레지스터 읽기 4번
+    #0 MA0 = 1'b1;
+    #0 nMCS = 1'b0;
+    #1 nMRD = 1'b0;
+    #4 nMRD = 1'b1;
+    #1 nMCS = 1'b0;
 end
 endmodule
